@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(where:*)",
+      "Bash(powershell:*)",
+      "Bash(python:*)",
+      "Bash(pip install:*)",
+      "Bash(npm create:*)",
+      "Bash(npm init vite@latest:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

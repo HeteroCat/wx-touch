@@ -1,0 +1,346 @@
+/* 功能页基础样式继承 */
+.extract-markdown-page {
+  /* 继承.feature-page样式 */
+}
+
+/* 输入区域样式 */
+.input-section {
+  background: white;
+  color: #333;
+}
+
+.input-container {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+  color: #333;
+  background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-description {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.6;
+  margin: 0 0 40px 0;
+}
+
+.input-form {
+  margin-bottom: 40px;
+}
+
+.input-group {
+  margin-bottom: 16px;
+}
+
+.url-textarea {
+  width: 100%;
+  padding: 16px 20px;
+  border: 2px solid #e1e5e9;
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: 'Courier New', monospace;
+  background: #f8f9fa;
+  color: #333;
+  transition: all 0.3s ease;
+  resize: vertical;
+  min-height: 120px;
+}
+
+.url-textarea:focus {
+  outline: none;
+  border-color: #ff6b6b;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+}
+
+.url-textarea::placeholder {
+  color: #999;
+}
+
+.url-textarea:disabled {
+  background: #f0f0f0;
+  cursor: not-allowed;
+}
+
+.extract-button {
+  width: 100%;
+  padding: 16px 32px;
+  background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 16px;
+}
+
+.extract-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+}
+
+.extract-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.error-message {
+  background: #fee;
+  color: #c53030;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  border-left: 4px solid #e53e3e;
+}
+
+.usage-tips {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 4px solid #ff6b6b;
+}
+
+.usage-tips h4 {
+  margin: 0 0 12px 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.usage-tips ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* 结果区域样式 */
+.result-section {
+  background: linear-gradient(135deg, #fff5f0 0%, #ffe8d6 100%);
+  color: #333;
+  overflow-y: auto;
+}
+
+.result-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.result-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+}
+
+.copy-button {
+  padding: 8px 16px;
+  background: white;
+  color: #ff6b6b;
+  border: 2px solid #ff6b6b;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.copy-button:hover {
+  background: #ff6b6b;
+  color: white;
+}
+
+/* 加载状态样式 */
+.loading-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #ff6b6b;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 空状态样式 */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-state h4 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  color: #666;
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Markdown显示区域 */
+.markdown-display {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e1e5e9;
+  overflow: hidden;
+}
+
+.markdown-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.markdown-content pre {
+  margin: 0;
+  padding: 16px 20px;
+  font-family: 'Courier New', 'Consolas', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background: transparent;
+  border: none;
+  overflow-x: auto;
+}
+
+/* Markdown基础排版 */
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+  margin: 16px 0 8px;
+  font-weight: 600;
+  color: #222;
+}
+
+.markdown-content p {
+  margin: 12px 0;
+  color: #333;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  margin: 12px 0 12px 24px;
+}
+
+.markdown-content li {
+  margin: 6px 0;
+}
+
+.markdown-content a {
+  color: #ff6b6b;
+  text-decoration: none;
+}
+
+.markdown-content a:hover {
+  text-decoration: underline;
+}
+
+.markdown-content code {
+  background: #f6f8fa;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Courier New', 'Consolas', monospace;
+}
+
+.markdown-content pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.markdown-content blockquote {
+  margin: 12px 0;
+  padding: 8px 12px;
+  border-left: 4px solid #ffd1d1;
+  background: #fff8f8;
+  color: #555;
+}
+
+.markdown-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.markdown-content hr {
+  border: none;
+  border-top: 1px solid #e1e5e9;
+  margin: 16px 0;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .result-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .copy-button {
+    align-self: stretch;
+  }
+
+  .markdown-content pre {
+    font-size: 12px;
+    padding: 16px;
+  }
+}

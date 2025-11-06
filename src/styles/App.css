@@ -1,0 +1,54 @@
+.App {
+  min-height: 100vh;
+  /* 允许页面纵向滚动，避免全局滚动被禁用 */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* 页面容器样式 */
+.page-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 功能页布局样式 */
+.feature-page {
+  display: flex;
+  height: 100vh;
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+}
+
+.feature-page .input-section {
+  flex: 1;
+  background: white;
+  color: #333;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.feature-page .result-section {
+  flex: 1;
+  background: linear-gradient(135deg, #fff5f0 0%, #ffe8d6 100%);
+  color: #333;
+  padding: 40px;
+  overflow-y: auto;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .feature-page {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .feature-page .input-section,
+  .feature-page .result-section {
+    flex: none;
+    padding: 20px;
+    min-height: 50vh;
+  }
+}
