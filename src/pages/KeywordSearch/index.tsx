@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import apiService from '@services/api'
 import type { Article } from '@/types'
-import './KeywordSearch.css'
+import CustomSelect from '@/components/common/CustomSelect'
 
 const KeywordSearch = () => {
   const [keyword, setKeyword] = useState('')
@@ -137,15 +137,16 @@ const KeywordSearch = () => {
             <div className="inline-controls">
               <div className="input-group inline-item">
                 <label className="control-label">搜索范围</label>
-                <select
+                <CustomSelect
+                  options={[
+                    { value: 'title', label: '标题' },
+                    { value: 'content', label: '内容' },
+                  ]}
                   value={searchType}
-                  onChange={(e) => setSearchType(e.target.value as 'title' | 'content')}
+                  onChange={(value) => setSearchType(value as 'title' | 'content')}
                   className="search-type-select"
                   disabled={loading}
-                >
-                  <option value="title">标题</option>
-                  <option value="content">内容</option>
-                </select>
+                />
               </div>
 
               <div className="input-group inline-item">

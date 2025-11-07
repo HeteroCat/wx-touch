@@ -56,7 +56,7 @@ const Home = () => {
               <div className="cube">
                 <div className="cube-face cube-front">
                   <div className="cube-content">
-                    <span className="cube-text">WX-Touch</span>
+                    <span className="cube-text">WX Touch</span>
                   </div>
                 </div>
                 <div className="cube-face cube-back">
