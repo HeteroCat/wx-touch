@@ -136,4 +136,4 @@ npm run type-check  # TypeScript 类型检查
 - 保持代码与文档注释同步更新。
 - 遵循上述开发规范与统一风格。
 
-## power by[HeteroCat](https://github.com/HeteroCat)
+## power by [HeteroCat](https://github.com/HeteroCat)
