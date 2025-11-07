@@ -1,6 +1,8 @@
-# WX Touch — 微信公众号爬虫前端
+![WX Touch 预览图](./image.png)
 
-WX Touch 是一个基于 React + TypeScript + Vite 构建的前端应用，用于调用“微信公众号爬虫服务”提供的接口，实现以下功能：
+# WX Touch — 微信公众号触手
+
+WX Touch 是一个基于 React + TypeScript + Vite 构建的前端应用，用于调用“微信公众号爬虫服务”提供的接口，实现以下核心能力：
 - 搜索微信公众号
 - 获取指定公众号的最新文章列表
 - 提取文章内容为 Markdown
@@ -37,7 +39,6 @@ npm run preview
 ```env
 VITE_API_KEY=你的APIKey
 VITE_API_SECRET=你的APISecret
-VITE_API_BASE_URL=https://wxcrawl.touchturing.com
 ```
 - 开发环境通过 Vite 代理使用相对路径访问 `/api`，见 `vite.config.ts`。
 - 认证头包含：`x-api-key`、`x-timestamp`、`x-signature`（在前端根据 `apiKey + endpoint + timestamp + apiSecret` 计算 MD5）。
@@ -45,29 +46,49 @@ VITE_API_BASE_URL=https://wxcrawl.touchturing.com
 ## 目录结构
 ```
 wx-touch/
-├── public/                 # 静态资源
+├── public/                  # 静态资源与公开文件
 ├── src/
+│   ├── assets/              # 图片、图标等静态资源（构建内打包）
 │   ├── components/
-│   │   └── common/         # 布局等通用组件
-│   ├── pages/              # 功能页面
-│   │   ├── Home/           # 首页
-│   │   ├── SearchAccount/  # 搜索公众号
-│   │   ├── LatestArticles/ # 最新文章列表
-│   │   ├── ExtractMarkdown/# 文章Markdown提取
-│   │   └── KeywordSearch/  # 关键词搜索
-│   ├── services/           # API 封装
-│   │   └── api.ts
-│   ├── styles/             # 全局与页面样式
-│   ├── types/              # TypeScript 类型定义
-│   ├── App.tsx             # 路由与页面入口
-│   └── main.tsx            # 应用入口
-├── vite.config.ts          # Vite 配置与代理
-├── package.json            # 项目脚本与依赖
-├── 开发指南.md              # 设计与功能实现指导
-├── API测试分析报告.md       # 接口测试分析
-├── API真实数据结构分析.md   # 真实数据结构说明
-└── docs/README.md          # 文档索引（本文件创建）
+│   │   └── common/          # 通用布局与基础组件（默认使用 reactbits）
+│   ├── pages/               # 业务页面（每个文件夹为一个路由页面）
+│   │   ├── Home/            # 首页
+│   │   ├── SearchAccount/   # 搜索公众号
+│   │   ├── LatestArticles/  # 最新文章列表
+│   │   ├── ExtractMarkdown/ # 文章 Markdown 提取
+│   │   └── KeywordSearch/   # 关键词搜索
+│   ├── services/            # 与后端交互的服务层
+│   │   └── api.ts           # 微信公众号爬虫 API 封装
+│   ├── styles/              # 全局与页面样式（含 App.css, index.css）
+│   ├── types/               # TypeScript 类型定义入口
+│   ├── App.tsx              # 应用路由与顶层布局组合
+│   └── main.tsx             # 应用入口（挂载 Root）
+├── index.html               # 单页应用入口 HTML
+├── vite.config.ts           # Vite 配置（代理、别名、构建设置）
+├── package.json             # 依赖与脚本
+└── .env.example             # 环境变量示例（复制为 .env 使用）
 ```
+
+路径别名（见 `vite.config.ts`）
+- `@pages` 指向 `src/pages`
+- `@components` 指向 `src/components`
+- `@/` 指向 `src` 根目录
+
+核心路由（见 `src/App.tsx`）
+- `/` → `Home`
+- `/search-account` → `SearchAccount`
+- `/latest-articles` → `LatestArticles`
+- `/extract-markdown` → `ExtractMarkdown`
+- `/keyword-search` → `KeywordSearch`
+
+服务层 API 封装（见 `src/services/api.ts`）
+- 类 `WeChatCrawlAPI`：封装认证、请求与常用方法
+- 方法：
+  - `searchWeChatAccount(search)` 搜索公众号
+  - `getLatestArticles(nickname, count?)` 获取最新文章
+  - `extractArticleMarkdown(url)` 提取文章为 Markdown
+  - `searchArticlesByKeyword(keyword, nickname, searchType?, count?, offset?)` 关键词搜索
+- 导出：`apiService` 单例与默认导出，便于各页面直接调用
 
 ## 页面与路由
 - `/` 首页：视觉引导与功能入口
@@ -109,15 +130,10 @@ npm run lint        # ESLint 检查
 npm run type-check  # TypeScript 类型检查
 ```
 
-## 部署说明
-- 默认构建输出目录：`dist/`
-- 可部署到任意静态托管平台（例如 Vercel、Netlify、静态服务器）。
-- 确保在部署环境设置正确的环境变量（见上文）。
-
-## 文档索引
-更详细的设计、数据与测试说明请参见 `docs/README.md`。
 
 ## 贡献指南
 - 提交改动前请运行 `npm run lint` 与 `npm run type-check`。
 - 保持代码与文档注释同步更新。
 - 遵循上述开发规范与统一风格。
+
+## power by[HeteroCat](https://github.com/HeteroCat)
