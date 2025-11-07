@@ -1,3 +1,14 @@
+/**
+ * @file index.ts
+ * @description
+ * 该文件定义了整个应用中使用的核心TypeScript类型和接口。
+ * 主要包括：
+ * - API相关的类型，如公众号信息(`WeChatAccount`)、文章信息(`Article`)和通用API响应(`APIResponse`)。
+ * - 各API端点的特定响应类型，例如`SearchAccountsResponse`和`GetArticlesResponse`。
+ * - API请求参数的类型，如`SearchAccountsParams`和`GetArticlesParams`。
+ * - 通用错误和配置类型。
+ */
+
 // 微信公众号爬虫API TypeScript类型定义
 
 // 公众号信息类型

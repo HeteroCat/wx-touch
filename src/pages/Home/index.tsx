@@ -49,41 +49,19 @@ const Home = () => {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
-            {/* 手掌SVG图标 */}
-            <div className="hand-icon">
-              <svg viewBox="0 0 200 200" className="hand-svg">
-                <path
-                  d="M100,180 C80,180 60,170 50,150 C40,130 40,110 50,90 C60,70 80,60 100,60 C120,60 140,70 150,90 C160,110 160,130 150,150 C140,170 120,180 100,180 Z"
-                  fill="none"
-                  stroke="url(#handGradient)"
-                  strokeWidth="3"
-                />
-                <path
-                  d="M70,100 L70,140 M90,90 L90,140 M110,90 L110,140 M130,100 L130,140"
-                  stroke="url(#handGradient)"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                />
-                <defs>
-                  <linearGradient id="handGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#ffffff" />
-                    <stop offset="100%" stopColor="#cccccc" />
-                  </linearGradient>
-                </defs>
-              </svg>
-            </div>
+            
 
             {/* 正方体3D效果 */}
             <div className="cube-wrapper">
               <div className="cube">
                 <div className="cube-face cube-front">
                   <div className="cube-content">
-                    <span className="cube-text">WX</span>
+                    <span className="cube-text">WX-Touch</span>
                   </div>
                 </div>
                 <div className="cube-face cube-back">
                   <div className="cube-content">
-                    <span className="cube-text">Touch</span>
+                    <span className="cube-text"></span>
                   </div>
                 </div>
                 <div className="cube-face cube-top"></div>

@@ -15,13 +15,33 @@ const API_CONFIG = {
 }
 
 /**
- * 微信公众号爬虫API服务类
+ * @file api.ts
+ * @description
+ * 本文件封装了与微信公众号爬虫API交互的所有功能。
+ * 主要功能包括：
+ * 1. 搜索微信公众号
+ * 2. 获取指定公众号的最新文章列表
+ * 3. 提取微信文章的Markdown内容
+ * 4. 根据关键词在指定公众号内搜索文章
+ *
+ * 服务通过`WeChatCrawlAPI`类实现，并导出单例`apiService`供全局使用。
+ * API认证通过请求头中的`x-api-key`, `x-timestamp`, `x-signature`实现，
+ * 其中`signature`是基于apiKey, endpoint, timestamp和apiSecret生成的MD5哈希。
+ *
+ * 开发环境利用Vite的代理功能将/api请求转发至目标服务器，避免跨域问题。
+ * 生产环境则直接请求`VITE_API_BASE_URL`指定的基础URL。
  */
 class WeChatCrawlAPI {
   private baseUrl: string
   private apiKey: string
   private apiSecret: string
 
+  /**
+   * @constructor
+   * @description
+   * 初始化API服务，加载环境变量中的配置。
+   * 如果API密钥未配置，会在控制台发出警告。
+   */
   constructor() {
     this.baseUrl = API_CONFIG.baseUrl
     this.apiKey = API_CONFIG.apiKey
@@ -33,9 +53,13 @@ class WeChatCrawlAPI {
   }
 
   /**
-   * 生成MD5签名认证头
-   * @param endpoint API端点路径
-   * @returns 认证头对象
+   * @method generateAuthHeaders
+   * @private
+   * @description
+   * 根据API端点和当前时间戳生成认证所需的请求头。
+   * 签名算法：MD5(apiKey + endpoint + timestamp + apiSecret)
+   * @param {string} endpoint - API端点路径，例如 '/api/search'。
+   * @returns {Record<string, string>} 包含`x-api-key`, `x-timestamp`, `x-signature`的请求头对象。
    */
   private generateAuthHeaders(endpoint: string): Record<string, string> {
     const timestamp = Math.floor(Date.now() / 1000).toString()
@@ -50,11 +74,16 @@ class WeChatCrawlAPI {
   }
 
   /**
-   * 发送HTTP请求的通用方法
-   * @param method HTTP方法
-   * @param endpoint API端点
-   * @param params 查询参数
-   * @returns 请求结果
+   * @method request
+   * @private
+   * @template T
+   * @description
+   * 一个通用的HTTP请求方法，封装了fetch API，并自动处理认证头和参数。
+   * @param {'GET' | 'POST'} method - HTTP请求方法。
+   * @param {string} endpoint - API端点路径。
+   * @param {Record<string, any>} [params={}] - URL查询参数。
+   * @returns {Promise<T>} - 解析后的JSON响应数据。
+   * @throws {Error} - 当网络请求失败或API返回非2xx状态码时抛出。
    */
   private async request<T>(
     method: 'GET' | 'POST',
@@ -96,9 +125,13 @@ class WeChatCrawlAPI {
   }
 
   /**
-   * 1. 搜索微信公众号
-   * @param search 搜索关键词
-   * @returns 搜索结果
+   * @method searchWeChatAccount
+   * @public
+   * @description
+   * 根据关键词搜索微信公众号。
+   * @param {string} search - 搜索关键词。
+   * @returns {Promise<SearchAccountsResponse>} - 包含公众号信息的响应数据。
+   * @throws {Error} - 当搜索关键词为空时抛出。
    */
   async searchWeChatAccount(search: string): Promise<SearchAccountsResponse> {
     if (!search || search.trim() === '') {
@@ -110,10 +143,14 @@ class WeChatCrawlAPI {
   }
 
   /**
-   * 2. 获取最新文章列表
-   * @param nickname 公众号昵称
-   * @param count 返回数量，默认10
-   * @returns 文章列表
+   * @method getLatestArticles
+   * @public
+   * @description
+   * 获取指定公众号的最新文章列表。
+   * @param {string} nickname - 目标公众号的昵称。
+   * @param {number} [count=10] - 希望获取的文章数量，范围为1-100。
+   * @returns {Promise<GetArticlesResponse>} - 包含文章列表的响应数据。
+   * @throws {Error} - 当公众号昵称为空或文章数量超出范围时抛出。
    */
   async getLatestArticles(nickname: string, count: number = 10): Promise<GetArticlesResponse> {
     if (!nickname || nickname.trim() === '') {
@@ -130,9 +167,13 @@ class WeChatCrawlAPI {
   }
 
   /**
-   * 3. 提取文章Markdown内容
-   * @param url 文章链接
-   * @returns Markdown内容
+   * @method extractArticleMarkdown
+   * @public
+   * @description
+   * 提取指定URL的微信文章内容，并返回Markdown格式。
+   * @param {string} url - 微信文章的URL。
+   * @returns {Promise<ExtractMarkdownResponse>} - 文章的Markdown内容字符串。
+   * @throws {Error} - 当URL为空或不是有效的微信文章链接时抛出。
    */
   async extractArticleMarkdown(url: string): Promise<ExtractMarkdownResponse> {
     if (!url || url.trim() === '') {
@@ -155,13 +196,17 @@ class WeChatCrawlAPI {
   }
 
   /**
-   * 4. 关键词搜索文章
-   * @param keyword 关键词
-   * @param nickname 公众号昵称
-   * @param searchType 搜索类型，默认'title'
-   * @param count 返回数量，默认10
-   * @param offset 偏移量，默认0
-   * @returns 搜索结果
+   * @method searchArticlesByKeyword
+   * @public
+   * @description
+   * 在指定公众号内根据关键词搜索文章。
+   * @param {string} keyword - 搜索关键词。
+   * @param {string} nickname - 目标公众号的昵称。
+   * @param {'title' | 'content'} [searchType='title'] - 搜索范围，'title'表示仅搜索标题，'content'表示搜索标题和内容。
+   * @param {number} [count=10] - 返回结果的数量，范围为1-100。
+   * @param {number} [offset=0] - 结果的偏移量，用于分页。
+   * @returns {Promise<SearchArticlesResponse>} - 包含搜索到的文章列表的响应数据。
+   * @throws {Error} - 当关键词或公众号昵称为空，或分页参数不合法时抛出。
    */
   async searchArticlesByKeyword(
     keyword: string,
@@ -193,9 +238,12 @@ class WeChatCrawlAPI {
   }
 
   /**
-   * 修复字符编码问题
-   * @param text 可能存在编码问题的文本
-   * @returns 修复后的文本
+   * @method fixEncoding
+   * @private
+   * @description
+   * 清理文本中可能存在的编码问题或无效字符。
+   * @param {string} text - 待处理的原始文本。
+   * @returns {string} - 清理后的文本。
    */
   private fixEncoding(text: string): string {
     if (typeof text !== 'string') {
@@ -210,17 +258,24 @@ class WeChatCrawlAPI {
   }
 
   /**
-   * 格式化时间戳为可读日期
-   * @param timestamp Unix时间戳
-   * @returns 格式化的日期字符串
+   * @method formatTimestamp
+   * @public
+   * @description
+   * 将Unix时间戳（秒）转换为本地化的日期时间字符串。
+   * @param {number} timestamp - Unix时间戳（秒）。
+   * @returns {string} - 格式如 "YYYY/M/D HH:mm:ss" 的本地日期时间字符串。
    */
   formatTimestamp(timestamp: number): string {
     return new Date(timestamp * 1000).toLocaleString('zh-CN')
   }
 
   /**
-   * 规范化图片URL，避免在HTTPS环境下加载HTTP图片导致被浏览器拦截
-   * 同时处理以//开头的协议相对URL
+   * @method normalizeImageUrl
+   * @public
+   * @description
+   * 规范化图片URL，主要用于处理协议相对URL和将HTTP转换为HTTPS，以避免浏览器混合内容警告。
+   * @param {string} url - 原始图片URL。
+   * @returns {string} - 规范化后的HTTPS URL。
    */
   normalizeImageUrl(url: string): string {
     if (!url || typeof url !== 'string') return url
